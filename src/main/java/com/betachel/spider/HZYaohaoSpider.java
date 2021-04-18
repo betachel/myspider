@@ -167,7 +167,7 @@ public class HZYaohaoSpider implements PageProcessor {
         boolean isNeedProcess = CollectionUtils.isEmpty(filterText) || filterText.stream().anyMatch(
             it -> name.contains(it));
 
-        if ( !isNeedProcess ) {
+        if ( ! isNeedProcess ) {
             return;
         }
         String href = aElement.attr("href");

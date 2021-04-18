@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.betachel.mybatis.dao.LotteryResultDAO">
+    <select id="findAll" resultType="com.betachel.model.LotteryResultModel">
+        select * from lottery_result_info
+    </select>
+
+    <insert id="insert" parameterType="com.betachel.model.LotteryResultModel" useGeneratedKeys="true" keyProperty="id">
+        insert into lottery_result_info(
+        gmt_create,gmt_modified,lottery_title,lottery_order
+        ,register_order,register_text,building_name,publicity_time
+        )values(
+            now(),now(),#{lotteryTitle},#{lotteryOrder}
+            ,#{registerOrder} ,#{registerText} ,#{buildingName}
+            ,#{publicityDate}
+        )
+    </insert>
+
+    <insert id="batchInsert" parameterType="com.betachel.model.LotteryResultModel" >
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into lottery_result_info(
+        gmt_create,gmt_modified,lottery_title,lottery_order
+        ,register_order,register_text,building_name,publicity_time
+        )values
+        <foreach collection="list" item="it" index="index" separator=",">
+        (
+            now(),now(),#{it.lotteryTitle},#{it.lotteryOrder}
+            ,#{it.registerOrder} ,#{it.registerText} ,#{it.buildingName}
+            ,#{it.publicityDate}
+        )
+        </foreach>
+    </insert>
+
+</mapper>
